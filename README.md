@@ -39,6 +39,15 @@ By combining technology, science, and sustainability, Extraplant transforms prod
 
 ---
 
+## Extraplant Screens
+
+![Extraplant Screen 1](pics/img1.png)
+
+![Extraplant Screen 2](pics/img2.png)
+
+![Extraplant Screen 3](pics/img3.png)
+
+
 ## API Overview
 
 ### Endpoint
