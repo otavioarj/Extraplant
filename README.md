@@ -343,7 +343,7 @@ This project is licensed under the GPL-3.0 License - see the [LICENSE](LICENSE) 
 - **FAO AquaCrop**: For the crop-water model
 - **NASA POWER**: For climate data API
 - **AquaCrop-OSPy**: Python implementation by Tim Foster et al.
-- **University of Manchester**: Agriculture, Water and Climate research group
+
 
 ---
 
