@@ -1,0 +1,150 @@
+<!doctype html>
+<html lang="pt-br">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Extraplant - Fazendinha</title>
+  <link rel="stylesheet" href="styles.css" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+</head>
+<body>
+  <header class="app-header">
+    <h1>Extraplant</h1>
+    <p>Equilibre água, clima e produtividade para maximizar sustentabilidade.</p>
+    <div class="header-actions">
+      <button id="soundToggle" title="Som">🔊</button>
+      <button id="resetProgress" class="secondary" title="Resetar progresso">Reiniciar progresso</button>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="panel">
+      <h2>Configurações de Simulação</h2>
+      <div class="grid">
+        <label>
+          Região
+          <select id="regionSelect"></select>
+        </label>
+        <label>
+          Cultura
+          <select id="cropSelect">
+            <option value="Maize">Maize (Milho)</option>
+            <option value="Wheat">Wheat (Trigo)</option>
+            <option value="Rice">Rice (Arroz)</option>
+            <option value="Cotton">Cotton (Algodão)</option>
+            <option value="Potato">Potato (Batata)</option>
+            <option value="Tomato">Tomato (Tomate)</option>
+            <option value="Soybean">Soybean (Soja)</option>
+          </select>
+        </label>
+        <label>
+          Resolução
+          <select id="resolutionSelect">
+            <option value="daily">Diária (detalhado)</option>
+            <option value="weekly">Semanal (rápido)</option>
+          </select>
+        </label>
+        <label>
+          Água inicial no solo
+          <select id="waterSelect">
+            <option value="FC">FC (Field Capacity)</option>
+            <option value="WP">WP (Wilting Point)</option>
+            <option value="SAT">SAT (Saturação)</option>
+            <option value="custom">Personalizado (%)</option>
+          </select>
+        </label>
+        <label id="customWaterWrap" class="hidden">
+          % Água personalizada
+          <input type="number" id="customWater" min="0" max="100" step="1" placeholder="0-100" />
+        </label>
+        <label>
+          Período
+          <div class="read-only">2024-10-15 → 2025-10-03</div>
+        </label>
+      </div>
+
+      <div class="actions">
+        <button id="simulateBtn">Rodar simulação</button>
+        <button id="tryPresetBtn" class="secondary">Preset: Estresse Hídrico</button>
+      </div>
+
+      <div class="hint">
+        Dica: período fixo para estabilidade dos dados. Semanal roda mais rápido.
+      </div>
+      <div id="configInfo" class="hint"></div>
+      <div id="debugInfo" class="hint" style="color: #f59e0b; font-family: monospace; font-size: 12px;"></div>
+    </section>
+
+    <section class="panel">
+      <h2>Resultados</h2>
+      <div id="status" class="status"></div>
+
+      <div class="cards">
+        <div class="card">
+          <div class="metric">
+            <span class="label">Eficiência (kg/m³)</span>
+            <span id="metricEfic" class="value">—</span>
+          </div>
+          <div class="metric">
+            <span class="label">Stress (mm)</span>
+            <span id="metricStress" class="value">—</span>
+          </div>
+          <div class="metric">
+            <span class="label">Produtividade (ton/ha)</span>
+            <span id="metricProd" class="value">—</span>
+          </div>
+        </div>
+        <div class="card">
+          <div class="metric">
+            <span class="label">Sustainability Score</span>
+            <span id="metricScore" class="value big">—</span>
+          </div>
+          <div id="badge" class="badge">—</div>
+        </div>
+      </div>
+
+      <div class="sprite-wrap">
+        <div id="sprite" class="sprite" title="Sua plantinha"></div>
+      </div>
+
+      <div class="charts">
+        <canvas id="growthChart" height="140"></canvas>
+      </div>
+
+      <details class="raw">
+        <summary>Ver JSON bruto</summary>
+        <pre id="rawOutput"></pre>
+      </details>
+    </section>
+
+    <section class="panel">
+      <h2>Fazendinha</h2>
+      <div class="farm-toolbar">
+        <button id="farmPlant">Plantar</button>
+        <button id="farmWater" class="secondary">Regar</button>
+        <button id="farmHarvest" class="secondary">Colher</button>
+        <div class="farm-stats">
+          Dia: <span id="farmDay">1</span> • Água: <span id="farmWaterLevel">50</span> • Moedas: <span id="farmCoins">0</span>
+        </div>
+      </div>
+      <div id="farmGrid" class="farm-grid" aria-label="Tabuleiro da fazenda"></div>
+      <div class="hint">Rode uma simulação para calibrar o clima da temporada.</div>
+    </section>
+
+    <section class="panel">
+      <h2>Conquistas</h2>
+      <ul id="achievementsList" class="achievements"></ul>
+      <div class="best-score">
+        Melhor pontuação: <span id="bestScore">—</span>
+      </div>
+    </section>
+  </main>
+
+  <footer class="app-footer">
+    <small>Dados via AquaCrop-OSPy | NASA POWER API | v1.0</small>
+  </footer>
+
+  <script src="app.js"></script>
+  <script src="farm.js"></script>
+</body>
+</html>

@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teste API</title>
+</head>
+<body>
+    <h1>Teste de Conectividade da API</h1>
+    <div id="status">Testando...</div>
+    <div id="result"></div>
+    
+    <script>
+        const API_URL = "https://wmjhsuoycqmjacablbpjyyzxwq0uohnz.lambda-url.us-east-1.on.aws/";
+        
+        async function testAPI() {
+            const statusEl = document.getElementById("status");
+            const resultEl = document.getElementById("result");
+            
+            try {
+                statusEl.textContent = "Fazendo requisição...";
+                
+                const payload = {
+                    regiao: 20,
+                    dt_i: "2024-10-15",
+                    dt_f: "2025-10-03",
+                    daily: false,
+                    agua: "WP",
+                    crop: "Maize"
+                };
+                
+                const response = await fetch(API_URL, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Access-Control-Allow-Origin': '*'
+                    },
+                    body: JSON.stringify(payload),
+                    mode: 'cors',
+                    credentials: 'omit'
+                });
+                
+                if (response.ok) {
+                    const data = await response.json();
+                    statusEl.textContent = "✅ API funcionando!";
+                    resultEl.innerHTML = `<pre>${JSON.stringify(data, null, 2)}</pre>`;
+                } else {
+                    statusEl.textContent = `❌ Erro HTTP: ${response.status}`;
+                    resultEl.textContent = await response.text();
+                }
+                
+            } catch (error) {
+                statusEl.textContent = `❌ Erro: ${error.message}`;
+                resultEl.textContent = error.stack;
+            }
+        }
+        
+        // Testar quando a página carregar
+        window.addEventListener('load', testAPI);
+    </script>
+</body>
+</html>

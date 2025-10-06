@@ -1,0 +1,5 @@
+# Versões mais antigas e estáveis com wheels garantidos
+requests==2.31.0
+numpy==1.23.5
+pandas>=2.0.0
+aquacrop==3.0.11
